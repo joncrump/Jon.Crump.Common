@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FA9B391B-963B-455E-94C8-C4B88D766886}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TightlyCurly.Com.Tests.Common</RootNamespace>
+    <AssemblyName>TightlyCurly.Com.Tests.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Moq, Version=4.2.1502.911, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssertException.cs" />
+    <Compile Include="Base\ITestRunner.cs" />
+    <Compile Include="Base\MoqTestBase.cs" />
+    <Compile Include="Base\TestBase.cs" />
+    <Compile Include="Base\TestRunner.cs" />
+    <Compile Include="Base\UtilityBase.cs" />
+    <Compile Include="ColumnInfo.cs" />
+    <Compile Include="ConstructorTester.cs" />
+    <Compile Include="DataContainer.cs" />
+    <Compile Include="DataHelpers\DatabaseDataHelper.cs" />
+    <Compile Include="Extensions\MoqExtensions.cs" />
+    <Compile Include="Helpers\AttributeInfo.cs" />
+    <Compile Include="Helpers\PropertyAttributeInfo.cs" />
+    <Compile Include="Helpers\Strategies\AsserterStrategyFactory.cs" />
+    <Compile Include="Helpers\Strategies\BooleanAsserterStrategy.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Helpers\Strategies\IAsserterStrategyFactory.cs" />
+    <Compile Include="Helpers\SurrogateAsserter.cs" />
+    <Compile Include="Helpers\ExceptionAsserter.cs" />
+    <Compile Include="Helpers\IDataGenerator.cs" />
+    <Compile Include="Helpers\IExceptionAsserter.cs" />
+    <Compile Include="Helpers\IAsserter.cs" />
+    <Compile Include="Helpers\Strategies\ByteAsserterStrategy.cs" />
+    <Compile Include="Helpers\Strategies\DateTimeAsserterStrategy.cs" />
+    <Compile Include="Helpers\Strategies\DoubleAsserterStrategy.cs" />
+    <Compile Include="Helpers\Strategies\EnumerableAsserterStrategy.cs" />
+    <Compile Include="Helpers\Strategies\EnumAsserterStrategy.cs" />
+    <Compile Include="Helpers\Strategies\GuidAsserterStrategy.cs" />
+    <Compile Include="Helpers\Strategies\IAsserterStrategy.cs" />
+    <Compile Include="Helpers\IObjectCreator.cs" />
+    <Compile Include="Helpers\RandomDataGenerator.cs" />
+    <Compile Include="Helpers\ReflectionBasedObjectCreator.cs" />
+    <Compile Include="Helpers\IAssertAdapter.cs" />
+    <Compile Include="Helpers\Strategies\Int32AsserterStrategy.cs" />
+    <Compile Include="Helpers\Strategies\LongAsserterStrategy.cs" />
+    <Compile Include="Helpers\Strategies\NullableAsserterStrategy.cs" />
+    <Compile Include="Helpers\Strategies\ObjectAsserterStrategy.cs" />
+    <Compile Include="Helpers\Strategies\StringAsserterStategy.cs" />
+    <Compile Include="Helpers\Strategies\Tuple2AsserterStrategy.cs" />
+    <Compile Include="Helpers\Strategies\UriAsserterStrategy.cs" />
+    <Compile Include="Helpers\Strategies\AsserterStrategyBase.cs" />
+    <Compile Include="MappedType.cs" />
+    <Compile Include="MockDataReader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TightlyCurly.Com.Common.Data\TightlyCurly.Com.Common.Data.csproj">
+      <Project>{02D3A7EC-DEED-49F6-A8A7-A7904E56C1F3}</Project>
+      <Name>TightlyCurly.Com.Common.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TightlyCurly.Com.Common\TightlyCurly.Com.Common.csproj">
+      <Project>{90DE5354-58AD-4B3E-805D-E1F471143033}</Project>
+      <Name>TightlyCurly.Com.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

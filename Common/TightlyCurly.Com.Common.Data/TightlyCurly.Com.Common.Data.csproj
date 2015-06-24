@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{02D3A7EC-DEED-49F6-A8A7-A7904E56C1F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TightlyCurly.Com.Common.Data</RootNamespace>
+    <AssemblyName>TightlyCurly.Com.Common.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\CountMetadataAttribute.cs" />
+    <Compile Include="Attributes\FieldMetadataAttribute.cs" />
+    <Compile Include="Attributes\JoinAttribute.cs" />
+    <Compile Include="Attributes\SortMetadataAttribute.cs" />
+    <Compile Include="Attributes\ValueFactoryAttribute.cs" />
+    <Compile Include="BuilderOptions.cs" />
+    <Compile Include="BuildMode.cs" />
+    <Compile Include="ChildState.cs" />
+    <Compile Include="Constants\Columns.cs" />
+    <Compile Include="Constants\ErrorMessages.cs" />
+    <Compile Include="Constants\ItemNames.cs" />
+    <Compile Include="Constants\Parameters.cs" />
+    <Compile Include="DatabaseFactory.cs" />
+    <Compile Include="DatabaseQueryPredicateBuilder.cs" />
+    <Compile Include="DatabaseSettings.cs" />
+    <Compile Include="DataModelBase.cs" />
+    <Compile Include="DatatableObjectMapping.cs" />
+    <Compile Include="Evaluator.cs" />
+    <Compile Include="FieldHelper.cs" />
+    <Compile Include="FieldParameterMapping.cs" />
+    <Compile Include="IBuilder.cs" />
+    <Compile Include="IDataReaderBuilder.cs" />
+    <Compile Include="IDatabaseFactory.cs" />
+    <Compile Include="IDatabaseSettings.cs" />
+    <Compile Include="IDatabaseWrapper.cs" />
+    <Compile Include="IDatatableObjectMapping.cs" />
+    <Compile Include="IFieldHelper.cs" />
+    <Compile Include="IModelDataConverter.cs" />
+    <Compile Include="IPredicateBuilder.cs" />
+    <Compile Include="IStateManager.cs" />
+    <Compile Include="IStateStore.cs" />
+    <Compile Include="Join.cs" />
+    <Compile Include="InitialObjectState.cs" />
+    <Compile Include="ObjectStateInfo.cs" />
+    <Compile Include="ObjectState.cs" />
+    <Compile Include="ObjectStateManager.cs" />
+    <Compile Include="QueryBuilders\IQueryBuilder.cs" />
+    <Compile Include="QueryBuilders\IQueryBuilderStrategyFactory.cs" />
+    <Compile Include="IValueFactory.cs" />
+    <Compile Include="ModelDataConverter.cs" />
+    <Compile Include="ParameterInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryBuilders\QueryBuilderStrategyFactory.cs" />
+    <Compile Include="QueryBuilders\Strategies\TSql\CountQueryBuilderStrategy.cs" />
+    <Compile Include="QueryBuilders\Strategies\TSql\DeleteQueryBuilderStrategy.cs" />
+    <Compile Include="QueryBuilders\Strategies\IQueryBuilderStrategy.cs" />
+    <Compile Include="QueryBuilders\Strategies\QueryBuilderStrategyBase.cs" />
+    <Compile Include="QueryBuilders\Strategies\TSql\InsertQueryBuilderStrategy.cs" />
+    <Compile Include="QueryBuilders\Strategies\TSql\PagedQueryBuilderStrategy.cs" />
+    <Compile Include="QueryBuilders\Strategies\TSql\SelectJoinedQueryBuilderStrategy.cs" />
+    <Compile Include="QueryBuilders\Strategies\TSql\SelectSingleQueryBuilderStrategy.cs" />
+    <Compile Include="QueryBuilders\Strategies\TSql\UpdateQueryBuilderStrategy.cs" />
+    <Compile Include="QueryContainer.cs" />
+    <Compile Include="QueryInfo.cs" />
+    <Compile Include="QueryBuilders\QueryKind.cs" />
+    <Compile Include="QueryType.cs" />
+    <Compile Include="JoinType.cs" />
+    <Compile Include="ReflectionBasedDataReaderBuilder.cs" />
+    <Compile Include="Repositories\BulkDatabaseRepositoryBase.cs" />
+    <Compile Include="Repositories\ExportableDatabaseRepositoryBase.cs" />
+    <Compile Include="Repositories\IPagingRepositoryHelper.cs" />
+    <Compile Include="Repositories\PagingRepositoryHelper.cs" />
+    <Compile Include="Repositories\ReadDatabaseRepositoryBase.cs" />
+    <Compile Include="Repositories\WriteDatabaseRepositoryBase.cs" />
+    <Compile Include="Repositories\DatabaseRepositoryBase.cs" />
+    <Compile Include="Repositories\EntityModelDatabaseRepositoryBase.cs" />
+    <Compile Include="Repositories\Strategies\DataReaderBuilderStrategyBase.cs" />
+    <Compile Include="Repositories\Strategies\DataReaderBuilderStrategyFactory.cs" />
+    <Compile Include="Repositories\Strategies\DataReaderSingleBuilderStrategy.cs" />
+    <Compile Include="Repositories\Strategies\DictionaryBasedDataReaderJoinedBuilderStrategy.cs" />
+    <Compile Include="Repositories\Strategies\IBuilderStrategy.cs" />
+    <Compile Include="Repositories\Strategies\IBuilderStrategyFactory.cs" />
+    <Compile Include="Repositories\IBulkRepository.cs" />
+    <Compile Include="Repositories\ICriteriaRepository.cs" />
+    <Compile Include="Repositories\IExportableRepository.cs" />
+    <Compile Include="Repositories\IPagingRepository.cs" />
+    <Compile Include="Repositories\IReadRepository.cs" />
+    <Compile Include="Repositories\IWriteRepository.cs" />
+    <Compile Include="Resources\Resources.Designer.cs" />
+    <Compile Include="SqlDatabaseWrapper.cs" />
+    <Compile Include="QueryBuilders\SqlQueryBuilder.cs" />
+    <Compile Include="Attributes\TableAttribute.cs" />
+    <Compile Include="TableObjectMapping.cs" />
+    <Compile Include="ValueFactory.cs" />
+    <Compile Include="ValueFactoryBuilderBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Resources.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TightlyCurly.Com.Common\TightlyCurly.Com.Common.csproj">
+      <Project>{90DE5354-58AD-4B3E-805D-E1F471143033}</Project>
+      <Name>TightlyCurly.Com.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

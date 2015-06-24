@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{88A2370D-E1B5-45F5-920B-61EA708E5B14}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TightlyCurly.Com.Common.Models</RootNamespace>
+    <AssemblyName>TightlyCurly.Com.Common.Models</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddressType.cs" />
+    <Compile Include="IAside.cs" />
+    <Compile Include="ICompanyType.cs" />
+    <Compile Include="Enums\ChangeFrequency.cs" />
+    <Compile Include="Enums\ConstructionMode.cs" />
+    <Compile Include="Enums\ConsultationStatus.cs" />
+    <Compile Include="Enums\ContentType.cs" />
+    <Compile Include="Enums\EntityType.cs" />
+    <Compile Include="Enums\LinkKind.cs" />
+    <Compile Include="Enums\ObjectType.cs" />
+    <Compile Include="Enums\RetrievalMode.cs" />
+    <Compile Include="IAddress.cs" />
+    <Compile Include="IBrand.cs" />
+    <Compile Include="ICategoryType.cs" />
+    <Compile Include="ICompany.cs" />
+    <Compile Include="ICompanyPosition.cs" />
+    <Compile Include="ICompanyRelationshipNode.cs" />
+    <Compile Include="IContactInfo.cs" />
+    <Compile Include="IContentArticle.cs" />
+    <Compile Include="IContentArticleData.cs" />
+    <Compile Include="IContentArticleNote.cs" />
+    <Compile Include="IContentArticleRevision.cs" />
+    <Compile Include="IContentItem.cs" />
+    <Compile Include="ICoordinates.cs" />
+    <Compile Include="ICountry.cs" />
+    <Compile Include="IProductSafetyInfo.cs" />
+    <Compile Include="IProductSafetyInfos.cs" />
+    <Compile Include="IProductVariantDescription.cs" />
+    <Compile Include="IProductVariantEditorialReview.cs" />
+    <Compile Include="IEmailAddress.cs" />
+    <Compile Include="IIngredient.cs" />
+    <Compile Include="IIngredientCategory.cs" />
+    <Compile Include="IIngredientComment.cs" />
+    <Compile Include="IIngredientInfo.cs" />
+    <Compile Include="IIngredientRating.cs" />
+    <Compile Include="IIngredientRatingText.cs" />
+    <Compile Include="ILink.cs" />
+    <Compile Include="ILocale.cs" />
+    <Compile Include="ILocation.cs" />
+    <Compile Include="IManufacturer.cs" />
+    <Compile Include="IManufacturerInfo.cs" />
+    <Compile Include="IMarket.cs" />
+    <Compile Include="IMenu.cs" />
+    <Compile Include="IMenuItem.cs" />
+    <Compile Include="IMenuItemText.cs" />
+    <Compile Include="IMenuText.cs" />
+    <Compile Include="IMessageCampaign.cs" />
+    <Compile Include="IMessageTemplate.cs" />
+    <Compile Include="IMessageTemplateToken.cs" />
+    <Compile Include="IMetaItem.cs" />
+    <Compile Include="IPatentAuthor.cs" />
+    <Compile Include="IPerson.cs" />
+    <Compile Include="IPersonRelationship.cs" />
+    <Compile Include="IPersonRelationshipType.cs" />
+    <Compile Include="IPhoneNumber.cs" />
+    <Compile Include="IProduct.cs" />
+    <Compile Include="IProductCategory.cs" />
+    <Compile Include="IProductLine.cs" />
+    <Compile Include="ICopyright.cs" />
+    <Compile Include="IPatent.cs" />
+    <Compile Include="IProductVariantMetadata.cs" />
+    <Compile Include="IProductVariantNote.cs" />
+    <Compile Include="IProductVariantSkuInfo.cs" />
+    <Compile Include="IProductVariantUserReview.cs" />
+    <Compile Include="ITrademark.cs" />
+    <Compile Include="IProductVariantReview.cs" />
+    <Compile Include="IProductRevisionHistory.cs" />
+    <Compile Include="IProductMetadata.cs" />
+    <Compile Include="IProductType.cs" />
+    <Compile Include="IProductVariant.cs" />
+    <Compile Include="IImageUri.cs" />
+    <Compile Include="IQuestion.cs" />
+    <Compile Include="IQuestionCategory.cs" />
+    <Compile Include="IRatingType.cs" />
+    <Compile Include="ISetting.cs" />
+    <Compile Include="ISettingSection.cs" />
+    <Compile Include="ISitemapEntry.cs" />
+    <Compile Include="ISocialMediaInfo.cs" />
+    <Compile Include="ISocialMediaType.cs" />
+    <Compile Include="IStateProvince.cs" />
+    <Compile Include="ISubscriber.cs" />
+    <Compile Include="ISubscription.cs" />
+    <Compile Include="ITextEntry.cs" />
+    <Compile Include="IUrlEntry.cs" />
+    <Compile Include="IUrlRoute.cs" />
+    <Compile Include="IUser.cs" />
+    <Compile Include="ModelBase.cs" />
+    <Compile Include="PhoneNumberType.cs" />
+    <Compile Include="PositionCategory.cs" />
+    <Compile Include="ProductSafetyInfoType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyBag.cs" />
+    <Compile Include="RelationshipType.cs" />
+    <Compile Include="Text.cs" />
+    <Compile Include="Xml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TightlyCurly.Com.Common\TightlyCurly.Com.Common.csproj">
+      <Project>{90DE5354-58AD-4B3E-805D-E1F471143033}</Project>
+      <Name>TightlyCurly.Com.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
