@@ -74,7 +74,6 @@
     <Compile Include="EntityModelDatabaseRepositoryBaseTests\TheGetByIdModelMethod.cs" />
     <Compile Include="EntityModelDatabaseRepositoryBaseTests\TheSaveMethod.cs" />
     <Compile Include="EntityModelDatabaseRepositoryBaseTests\TheDeleteMethod.cs" />
-    <Compile Include="ObjectStateManagerTests\TestableObjectStateManager.cs" />
     <Compile Include="ObjectStateManagerTests\TheConstructor.cs" />
     <Compile Include="ObjectStateManagerTests\TheSetStateMethod.cs" />
     <Compile Include="ObjectStateManagerTests\TheGetObjectStateMethod.cs" />

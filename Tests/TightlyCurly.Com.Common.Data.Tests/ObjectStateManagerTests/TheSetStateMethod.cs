@@ -5,14 +5,13 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TightlyCurly.Com.Common.Data.Attributes;
-using TightlyCurly.Com.Common.Extensions;
 using TightlyCurly.Com.Common.Helpers;
 using TightlyCurly.Com.Tests.Common.MsTest;
 
 namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
 {
     [TestClass]
-    public class TheSetStateMethod : MsTestMoqTestBase<TestableObjectStateManager>
+    public class TheSetStateMethod : MsTestMoqTestBase<ObjectStateManager>
     {
         public override void Setup()
         {
@@ -40,6 +39,12 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
         public void WillInvokeHashHelper()
         {
             TestRunner
+                .DoCustomSetup(() =>
+                {
+                    Mocks.Get<Mock<IStateStore>>()
+                        .Setup(x => x.GetStateStore())
+                        .Returns(new Dictionary<string, InitialObjectState>());
+                })
                 .ExecuteTest(() =>
                 {
                     ItemUnderTest.SetState(ObjectCreator.CreateNew<TestClassWithPrimaryKey>());
@@ -69,6 +74,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
             InitialObjectState expected = null;
             TestClassWithPrimaryKey testClass = null;
             var key = String.Empty;
+            IDictionary<string, InitialObjectState> states = null;
 
             TestRunner
                 .DoCustomSetup(() =>
@@ -76,6 +82,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                     var hash = DataGenerator.GenerateString();
 
                     testClass = ObjectCreator.CreateNew<TestClassWithPrimaryKey>();
+                    states = new Dictionary<string, InitialObjectState>();
 
                     var property = typeof(TestClassWithPrimaryKey)
                         .GetProperties()
@@ -93,18 +100,24 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                     Mocks.Get<Mock<IHashHelper>>()
                         .Setup(x => x.GenerateHash(testClass))
                         .Returns(hash);
+
+                    var stateStore = Mocks.Get<Mock<IStateStore>>();
+
+                    stateStore
+                        .Setup(x => x.GetStateStore())
+                        .Returns(states);
                 })
                 .ExecuteTest(() =>
                 {
                     ItemUnderTest.SetState(testClass);
-
-                    Asserter.AssertEquality(1, ItemUnderTest.ObjectStates.Count);
-                    Assert.IsTrue(ItemUnderTest.ObjectStates.ContainsKey(key));
-                    Asserter.AssertEquality(key, ItemUnderTest.ObjectStates.Keys.First());
-                    Asserter.AssertEquality(expected, ItemUnderTest.ObjectStates[key], 
+                    
+                    Asserter.AssertEquality(1, states.Count);
+                    Assert.IsTrue(states.ContainsKey(key));
+                    Asserter.AssertEquality(key, states.Keys.First());
+                    Asserter.AssertEquality(expected, states[key], 
                         new[] {"ObjectType", "ChildObjectStates"});
-                    Asserter.AssertEquality(expected.ObjectType.ToString(), ItemUnderTest.ObjectStates[key].ObjectType.ToString());
-                    Assert.IsTrue(!ItemUnderTest.ObjectStates[key].ChildObjectStates.Any());
+                    Asserter.AssertEquality(expected.ObjectType.ToString(), states[key].ObjectType.ToString());
+                    Assert.IsTrue(!states[key].ChildObjectStates.Any());
                 });
         }
 
@@ -114,6 +127,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
             InitialObjectState expected = null;
             TestClassWithPrimaryKeyWithEnumerable testClass = null;
             var key = String.Empty;
+            IDictionary<string, InitialObjectState> states = null;
 
             TestRunner
                 .DoCustomSetup(() =>
@@ -121,6 +135,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                     var hash = DataGenerator.GenerateString();
                     var childHash = DataGenerator.GenerateString();
                     var child = ObjectCreator.CreateNew<TestClassWithPrimaryKey>();
+                    states = new Dictionary<string, InitialObjectState>();
 
                     testClass = ObjectCreator.CreateNew<TestClassWithPrimaryKeyWithEnumerable>(
                         new Dictionary<string, object>
@@ -165,18 +180,22 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                     Mocks.Get<Mock<IHashHelper>>()
                         .Setup(x => x.GenerateHash(child))
                         .Returns(childHash);
+
+                    Mocks.Get<Mock<IStateStore>>()
+                        .Setup(x => x.GetStateStore())
+                        .Returns(states);
                 })
                 .ExecuteTest(() =>
                 {
                     ItemUnderTest.SetState(testClass);
 
-                    Asserter.AssertEquality(1, ItemUnderTest.ObjectStates.Count);
-                    Assert.IsTrue(ItemUnderTest.ObjectStates.ContainsKey(key));
-                    Asserter.AssertEquality(key, ItemUnderTest.ObjectStates.Keys.First());
-                    Asserter.AssertEquality(expected, ItemUnderTest.ObjectStates[key],
+                    Asserter.AssertEquality(1, states.Count);
+                    Assert.IsTrue(states.ContainsKey(key));
+                    Asserter.AssertEquality(key, states.Keys.First());
+                    Asserter.AssertEquality(expected, states[key],
                         new[] { "ObjectType", "ChildObjectStates" });
-                    Asserter.AssertEquality(expected.ObjectType.ToString(), ItemUnderTest.ObjectStates[key].ObjectType.ToString());
-                    Asserter.AssertEquality(expected.ChildObjectStates, ItemUnderTest.ObjectStates[key].ChildObjectStates,
+                    Asserter.AssertEquality(expected.ObjectType.ToString(), states[key].ObjectType.ToString());
+                    Asserter.AssertEquality(expected.ChildObjectStates, states[key].ChildObjectStates,
                         new[] { "ObjectType", "ChildObjectStates" });
                 });
         }
@@ -186,28 +205,31 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
         {
             var expectedHash = String.Empty;
             var id = 0;
+            IDictionary<string, InitialObjectState> states = null;
 
             TestRunner
                 .DoCustomSetup(() =>
                 {
                     var hash = DataGenerator.GenerateString();
-                    var objectStates = new ConcurrentDictionary<string, InitialObjectState>();
 
+                    states = new Dictionary<string, InitialObjectState>();
                     expectedHash = DataGenerator.GenerateString();
                     id = DataGenerator.GenerateInteger();
 
-                    objectStates.TryAdd(id.ToString(), new InitialObjectState
+                    states.Add(id.ToString(), new InitialObjectState
                     {
                         HashCode = hash,
                         Id = id.ToString(),
                         ObjectType = typeof (TestClassWithPrimaryKey)
                     });
 
-                    ItemUnderTest.ObjectStates = objectStates;
-
                     Mocks.Get<Mock<IHashHelper>>()
                         .Setup(x => x.GenerateHash(It.IsAny<object>()))
                         .Returns(expectedHash);
+
+                    Mocks.Get<Mock<IStateStore>>()
+                        .Setup(x => x.GetStateStore())
+                        .Returns(states);
                 })
                 .ExecuteTest(() =>
                 {
@@ -218,9 +240,9 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
 
                     ItemUnderTest.SetState(item);
 
-                    Assert.IsTrue(ItemUnderTest.ObjectStates.Count == 1);
-                    Assert.IsTrue(ItemUnderTest.ObjectStates.ContainsKey(id.ToString()));
-                    var state = ItemUnderTest.ObjectStates[id.ToString()];
+                    Assert.IsTrue(states.Count == 1);
+                    Assert.IsTrue(states.ContainsKey(id.ToString()));
+                    var state = states[id.ToString()];
 
                     Asserter.AssertEquality(expectedHash, state.HashCode);
                 });
@@ -234,10 +256,12 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
             TestClassWithPrimaryKeyWithEnumerable parent2 = null;
             string expectedHash = null;
             string currentChildHash = null;
+            IDictionary<string, InitialObjectState> states = null;
 
             TestRunner
                 .DoCustomSetup(() =>
                 {
+                    states = new Dictionary<string, InitialObjectState>();
                     currentChildHash = DataGenerator.GenerateString();
                     expectedHash = DataGenerator.GenerateString();
                     child = ObjectCreator.CreateNew<TestClassWithPrimaryKey>();
@@ -254,9 +278,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                             {"TestClasses", new[] {child}}
                         });
 
-                    var objectStates = new ConcurrentDictionary<string, InitialObjectState>();
-
-                    objectStates.TryAdd(child.Id.ToString(),
+                    states.Add(child.Id.ToString(),
                         new InitialObjectState
                         {
                             Id = child.Id.ToString(),
@@ -264,7 +286,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                             ObjectType = typeof (TestClassWithPrimaryKey)
                         });
 
-                    objectStates.TryAdd(parent1.TestId.ToString(),
+                    states.Add(parent1.TestId.ToString(),
                         new InitialObjectState
                         {
                             Id = parent1.TestId.ToString(),
@@ -281,7 +303,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                             }
                         });
 
-                    objectStates.TryAdd(parent2.TestId.ToString(),
+                    states.Add(parent2.TestId.ToString(),
                         new InitialObjectState
                         {
                             Id = parent2.TestId.ToString(),
@@ -298,20 +320,22 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                             }
                         });
 
-                    ItemUnderTest.ObjectStates = objectStates;
-
                     Mocks.Get<Mock<IHashHelper>>()
                       .Setup(x => x.GenerateHash(It.IsAny<object>()))
                       .Returns(expectedHash);
+
+                    Mocks.Get<Mock<IStateStore>>()
+                        .Setup(x => x.GetStateStore())
+                        .Returns(states);
                 })
                 .ExecuteTest(() =>
                 {
                     ItemUnderTest.SetState(child);
 
-                    Asserter.AssertEquality(3, ItemUnderTest.ObjectStates.Count);
-                    Asserter.AssertEquality(expectedHash, ItemUnderTest.ObjectStates[child.Id.ToString()].HashCode);
-                    Asserter.AssertEquality(expectedHash, ItemUnderTest.ObjectStates[parent1.TestId.ToString()].ChildObjectStates.First().HashCode);
-                    Asserter.AssertEquality(expectedHash, ItemUnderTest.ObjectStates[parent2.TestId.ToString()].ChildObjectStates.First().HashCode);
+                    Asserter.AssertEquality(3, states.Count);
+                    Asserter.AssertEquality(expectedHash, states[child.Id.ToString()].HashCode);
+                    Asserter.AssertEquality(expectedHash, states[parent1.TestId.ToString()].ChildObjectStates.First().HashCode);
+                    Asserter.AssertEquality(expectedHash, states[parent2.TestId.ToString()].ChildObjectStates.First().HashCode);
                 });
         }
 
@@ -320,10 +344,13 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
         {
             TestClassWithPrimaryKeyWithEnumerable parent = null;
             TestClassWithPrimaryKey expectedChild = null;
+            IDictionary<string, InitialObjectState> states = null;
 
             TestRunner
                 .DoCustomSetup(() =>
                 {
+                    states = new Dictionary<string, InitialObjectState>();
+
                     expectedChild = ObjectCreator.CreateNew<TestClassWithPrimaryKey>(
                         new Dictionary<string, object>
                         {
@@ -336,8 +363,6 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                             {"TestId", 1},
                             {"TestClasses", new[] {expectedChild}}
                         });
-
-                    var objectStates = new ConcurrentDictionary<string, InitialObjectState>();
 
                     var objectState = new InitialObjectState
                     {
@@ -363,19 +388,21 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                         }
                     };
 
-                    objectStates.TryAdd("1", objectState);
+                    states.Add("1", objectState);
 
-                    ItemUnderTest.ObjectStates = objectStates;
+                    Mocks.Get<Mock<IStateStore>>()
+                        .Setup(x => x.GetStateStore())
+                        .Returns(states);
                 })
                 .ExecuteTest(() =>
                 {
                     ItemUnderTest.SetState(parent);
 
-                    var childStates = ItemUnderTest.ObjectStates.First().Value.ChildObjectStates; 
+                    var childStates = states.First().Value.ChildObjectStates; 
 
                     Asserter.AssertEquality(1, childStates.Count);
-                    Asserter.AssertEquality(true, childStates.Where(c => c.Id == "2").IsNullOrEmpty());
-                    Asserter.AssertEquality(true, childStates.Where(c => c.Id == "1").IsNotNullOrEmpty());
+                    Asserter.AssertEquality(true, childStates.FirstOrDefault(c => c.Id == "2").IsDeleted);
+                    Asserter.AssertEquality(true, childStates.FirstOrDefault(c => c.Id == "1").IsDeleted);
                 });
         }
 

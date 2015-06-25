@@ -13,7 +13,7 @@ using TightlyCurly.Com.Common.Data.Attributes;
 namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
 {
     [TestClass]
-    public class TheGetObjectStateMethod : MsTestMoqTestBase<TestableObjectStateManager>
+    public class TheGetObjectStateMethod : MsTestMoqTestBase<ObjectStateManager>
     {
         public override void Setup()
         {
@@ -72,7 +72,9 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                 .DoCustomSetup(() =>
                 {
                     value = ObjectCreator.CreateNew<ChildTestClass>();
-                    ItemUnderTest.ObjectStates = new Dictionary<string, InitialObjectState>();
+                    Mocks.Get<Mock<IStateStore>>()
+                        .Setup(x => x.GetStateStore())
+                        .Returns(new Dictionary<string, InitialObjectState>());
                 })
                 .ExecuteTest(() =>
                 {
@@ -132,23 +134,25 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                         }
                     };
 
-                    objectStates.TryAdd(parent.ParentId.ToString(), parentState);
+                    objectStates.Add(parent.ParentId.ToString(), parentState);
 
-                    objectStates.TryAdd(attached.ChildId.ToString(), new InitialObjectState
+                    objectStates.Add(attached.ChildId.ToString(), new InitialObjectState
                     {
                         HashCode = DataGenerator.GenerateString(),
                         Id = attached.ChildId.ToString(),
                         ObjectType = typeof(ChildTestClass),
                     });
 
-                    objectStates.TryAdd(detached.ChildId.ToString(), new InitialObjectState
+                    objectStates.Add(detached.ChildId.ToString(), new InitialObjectState
                     {
                         HashCode = DataGenerator.GenerateString(),
                         Id = detached.ChildId.ToString(),
                         ObjectType = typeof(ChildTestClass)
                     });
 
-                    ItemUnderTest.ObjectStates = objectStates;
+                    Mocks.Get<Mock<IStateStore>>()
+                        .Setup(x => x.GetStateStore())
+                        .Returns(objectStates);
                 })
                 .ExecuteTest(() =>
                 {
@@ -202,7 +206,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
 
                     var objectStates = new Dictionary<string, InitialObjectState>();
 
-                    objectStates.TryAdd(parent.ParentId.ToString(),
+                    objectStates.Add(parent.ParentId.ToString(),
                         new InitialObjectState
                         {
                             Id = parent.ParentId.ToString(),
@@ -211,7 +215,9 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                             HashCode = hashCode
                         });
 
-                    ItemUnderTest.ObjectStates = objectStates;
+                    Mocks.Get<Mock<IStateStore>>()
+                        .Setup(x => x.GetStateStore())
+                        .Returns(objectStates);
                 })
                 .ExecuteTest(() =>
                 {
@@ -239,7 +245,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
 
                     var objectStates = new Dictionary<string, InitialObjectState>();
 
-                    objectStates.TryAdd(parent.ParentId.ToString(),
+                    objectStates.Add(parent.ParentId.ToString(),
                         new InitialObjectState
                         {
                             Id = parent.ParentId.ToString(),
@@ -248,7 +254,9 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                             HashCode = DataGenerator.GenerateString()
                         });
 
-                    ItemUnderTest.ObjectStates = objectStates;
+                    Mocks.Get<Mock<IStateStore>>()
+                        .Setup(x => x.GetStateStore())
+                        .Returns(objectStates);
                 })
                 .ExecuteTest(() =>
                 {
@@ -276,7 +284,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
 
                     var objectStates = new Dictionary<string, InitialObjectState>();
 
-                    objectStates.TryAdd(parent.ParentId.ToString(),
+                    objectStates.Add(parent.ParentId.ToString(),
                         new InitialObjectState
                         {
                             Id = parent.ParentId.ToString(),
@@ -285,7 +293,9 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                             HashCode = DataGenerator.GenerateString()
                         });
 
-                    ItemUnderTest.ObjectStates = objectStates;
+                    Mocks.Get<Mock<IStateStore>>()
+                        .Setup(x => x.GetStateStore())
+                        .Returns(objectStates);
                 })
                 .ExecuteTest(() =>
                 {
@@ -313,7 +323,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
 
                     var objectStates = new Dictionary<string, InitialObjectState>();
 
-                    objectStates.TryAdd(parent.ParentId.ToString(),
+                    objectStates.Add(parent.ParentId.ToString(),
                         new InitialObjectState
                         {
                             Id = parent.ParentId.ToString(),
@@ -354,7 +364,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                     var childHash = DataGenerator.GenerateString();
                     var objectStates = new Dictionary<string, InitialObjectState>();
 
-                    objectStates.TryAdd(parent.ParentId.ToString(),
+                    objectStates.Add(parent.ParentId.ToString(),
                         new InitialObjectState
                         {
                             Id = parent.ParentId.ToString(),
@@ -374,7 +384,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                             }
                         });
 
-                    objectStates.TryAdd(child.ChildId.ToString(),
+                    objectStates.Add(child.ChildId.ToString(),
                         new InitialObjectState
                         {
                             Id = child.ChildId.ToString(),
@@ -390,7 +400,9 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                         .Setup(x => x.GenerateHash(child))
                         .Returns(childHash);
 
-                    ItemUnderTest.ObjectStates = objectStates;
+                    Mocks.Get<Mock<IStateStore>>()
+                        .Setup(x => x.GetStateStore())
+                        .Returns(objectStates);
                 })
                 .ExecuteTest(() =>
                 {
@@ -420,7 +432,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                     var childHash = DataGenerator.GenerateString();
                     var objectStates = new Dictionary<string, InitialObjectState>();
 
-                    objectStates.TryAdd(parent.ParentId.ToString(),
+                    objectStates.Add(parent.ParentId.ToString(),
                         new InitialObjectState
                         {
                             Id = parent.ParentId.ToString(),
@@ -440,7 +452,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                             }
                         });
 
-                    objectStates.TryAdd(child.ChildId.ToString(),
+                    objectStates.Add(child.ChildId.ToString(),
                         new InitialObjectState
                         {
                             Id = child.ChildId.ToString(),
@@ -456,7 +468,9 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                         .Setup(x => x.GenerateHash(child))
                         .Returns(DataGenerator.GenerateString());
 
-                    ItemUnderTest.ObjectStates = objectStates;
+                    Mocks.Get<Mock<IStateStore>>()
+                        .Setup(x => x.GetStateStore())
+                        .Returns(objectStates);
                 })
                 .ExecuteTest(() =>
                 {
@@ -486,7 +500,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                     var childHash = DataGenerator.GenerateString();
                     var objectStates = new Dictionary<string, InitialObjectState>();
 
-                    objectStates.TryAdd(parent.ParentId.ToString(),
+                    objectStates.Add(parent.ParentId.ToString(),
                         new InitialObjectState
                         {
                             Id = parent.ParentId.ToString(),
@@ -506,7 +520,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                             }
                         });
 
-                    objectStates.TryAdd(child.ChildId.ToString(),
+                    objectStates.Add(child.ChildId.ToString(),
                         new InitialObjectState
                         {
                             Id = child.ChildId.ToString(),
@@ -523,7 +537,9 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                         .Setup(x => x.GenerateHash(child))
                         .Returns(DataGenerator.GenerateString());
 
-                    ItemUnderTest.ObjectStates = objectStates;
+                    Mocks.Get<Mock<IStateStore>>()
+                        .Setup(x => x.GetStateStore())
+                        .Returns(objectStates);
                 })
                 .ExecuteTest(() =>
                 {
@@ -553,7 +569,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                     var childHash = DataGenerator.GenerateString();
                     var objectStates = new Dictionary<string, InitialObjectState>();
 
-                    objectStates.TryAdd(parent.ParentId.ToString(),
+                    objectStates.Add(parent.ParentId.ToString(),
                         new InitialObjectState
                         {
                             Id = parent.ParentId.ToString(),
@@ -574,7 +590,7 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                             }
                         });
 
-                    objectStates.TryAdd(child.ChildId.ToString(),
+                    objectStates.Add(child.ChildId.ToString(),
                         new InitialObjectState
                         {
                             Id = child.ChildId.ToString(),
@@ -591,7 +607,9 @@ namespace TightlyCurly.Com.Common.Data.Tests.ObjectStateManagerTests
                         .Setup(x => x.GenerateHash(child))
                         .Returns(DataGenerator.GenerateString());
 
-                    ItemUnderTest.ObjectStates = objectStates;
+                    Mocks.Get<Mock<IStateStore>>()
+                        .Setup(x => x.GetStateStore())
+                        .Returns(objectStates);
                 })
                 .ExecuteTest(() =>
                 {

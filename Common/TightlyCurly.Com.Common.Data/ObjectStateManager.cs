@@ -13,13 +13,16 @@ namespace TightlyCurly.Com.Common.Data
         private readonly IHashHelper _hashHelper;
         private readonly IStateStore _stateStore;
 
-        protected IDictionary<string, InitialObjectState> InitialObjectStates; 
+        private IDictionary<string, InitialObjectState> InitialObjectStates
+        {
+            get { return _stateStore.GetStateStore(); }
+            set { _stateStore.SaveStateStore(value); }
+        }
 
         public ObjectStateManager(IHashHelper hashHelper, IStateStore stateStore)
         {
             _hashHelper = Guard.EnsureIsNotNull("hashHelper", hashHelper);
-
-            //InitialObjectStates = new ConcurrentDictionary<string, InitialObjectState>();
+            _stateStore = Guard.EnsureIsNotNull("stateStore", stateStore);
         }
 
         public void SetState(object value)
@@ -114,7 +117,6 @@ namespace TightlyCurly.Com.Common.Data
             }
 
             stateInfo.ObjectState = ObjectState.NoChange;
-            return;
         }
 
         private InitialObjectState GetChildInitialState(object parent, object child)
